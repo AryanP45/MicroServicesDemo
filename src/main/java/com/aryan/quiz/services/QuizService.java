@@ -38,4 +38,13 @@ public class QuizService {
 		return new ResponseEntity<>("Quiz cannot be created please check parameters correctly",
 				HttpStatus.NOT_ACCEPTABLE);
 	}
+
+	public ResponseEntity<List<Quiz>> getAllQuiz() {
+		try {
+			return new ResponseEntity<>(quizDao.findAll(), HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
+	}
 }

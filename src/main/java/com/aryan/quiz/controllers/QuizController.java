@@ -28,5 +28,10 @@ public class QuizController {
 		return quizService.createQuiz(category, noOfQuestion, title);
 
 	}
+
+	@GetMapping("/all")
+	public ResponseEntity<List<Quiz>> getAllQuiz() {
+		return quizService.getAllQuiz();
+	}
 	}
 }
