@@ -71,10 +71,13 @@ public class QuestionService {
 		return new ResponseEntity<>("Question Not Found !!", HttpStatus.NOT_FOUND);
 	}
 
-	public Question updateQuestion(Question question) {
-		if (questionDao.findById(question.getId()).isPresent()) {
-			return questionDao.save(question);
+	public ResponseEntity<Question> updateQuestion(Question question) {
+		try {
+			if (questionDao.findById(question.getId()).isPresent())
+				return new ResponseEntity<>(questionDao.save(question), HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		return null;
+		return new ResponseEntity<>(new Question(), HttpStatus.NOT_FOUND);
 	}
 }
