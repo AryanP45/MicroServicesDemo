@@ -47,9 +47,15 @@ public class QuestionService {
 		return new ResponseEntity<>(questionDao.findById(id), HttpStatus.NOT_FOUND);
 	}
 
-	public String addQuestion(Question question) {
-		questionDao.save(question);
-		return "success";
+	public ResponseEntity<String> addQuestion(Question question) {
+		try {
+			questionDao.save(question);
+			return new ResponseEntity<>("Question Added", HttpStatus.CREATED);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<>("Question cannot be added please check that no fields are null",
+				HttpStatus.NOT_ACCEPTABLE);
 	}
 
 	public String deleteQuestion(Integer id) {
