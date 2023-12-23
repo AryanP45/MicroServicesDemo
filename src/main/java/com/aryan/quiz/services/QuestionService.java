@@ -39,4 +39,11 @@ public class QuestionService {
 		}
 		return "ID not Found";
 	}
+
+	public Question updateQuestion(Question question) {
+		if (questionDao.findById(question.getId()).isPresent()) {
+			return questionDao.save(question);
+		}
+		return null;
+	}
 }
