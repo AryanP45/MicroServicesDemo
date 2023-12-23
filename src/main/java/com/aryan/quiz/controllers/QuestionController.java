@@ -49,7 +49,7 @@ public class QuestionController {
 	}
 
 	@DeleteMapping("/delete/{id}")
-	public String deleteQuestion(@PathVariable Integer id) {
+	public ResponseEntity<String> deleteQuestion(@PathVariable Integer id) {
 		return questionService.deleteQuestion(id);
 	}
 

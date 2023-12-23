@@ -58,12 +58,17 @@ public class QuestionService {
 				HttpStatus.NOT_ACCEPTABLE);
 	}
 
-	public String deleteQuestion(Integer id) {
-		if (questionDao.findById(id).isPresent()) {
-			questionDao.deleteById(id);
-			return "Deleted !!";
+	public ResponseEntity<String> deleteQuestion(Integer id) {
+		try {
+			if (questionDao.findById(id).isPresent()) {
+				questionDao.deleteById(id);
+
+				return new ResponseEntity<>("Deleted !!", HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		return "ID not Found";
+		return new ResponseEntity<>("Question Not Found !!", HttpStatus.NOT_FOUND);
 	}
 
 	public Question updateQuestion(Question question) {
