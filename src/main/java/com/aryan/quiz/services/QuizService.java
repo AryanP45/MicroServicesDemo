@@ -48,14 +48,14 @@ public class QuizService {
 		return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
 	}
 
-	public ResponseEntity<Quiz> getQuizById(Integer id) {
+	public ResponseEntity<List<Question>> getQuizQuestionsById(Integer id) {
 		try {
 			if(quizDao.findById(id).isPresent())
-				return new ResponseEntity<>(quizDao.findById(id).get(),HttpStatus.OK); 
+				return new ResponseEntity<>(quizDao.findById(id).get().getQuestions(),HttpStatus.OK); 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ResponseEntity<>(new Quiz(),HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(new Quiz().getQuestions(),HttpStatus.NOT_FOUND);
 	}
 
 }
