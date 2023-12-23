@@ -33,5 +33,9 @@ public class QuizController {
 	public ResponseEntity<List<Quiz>> getAllQuiz() {
 		return quizService.getAllQuiz();
 	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<Quiz> getQuizById(@PathVariable Integer id){
+		return quizService.getQuizById(id);
 	}
 }

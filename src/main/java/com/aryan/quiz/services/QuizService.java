@@ -47,4 +47,15 @@ public class QuizService {
 		}
 		return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
 	}
+
+	public ResponseEntity<Quiz> getQuizById(Integer id) {
+		try {
+			if(quizDao.findById(id).isPresent())
+				return new ResponseEntity<>(quizDao.findById(id).get(),HttpStatus.OK); 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<>(new Quiz(),HttpStatus.NOT_FOUND);
+	}
+
 }
