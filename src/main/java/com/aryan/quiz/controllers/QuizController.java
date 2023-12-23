@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aryan.quiz.models.Question;
+import com.aryan.quiz.models.QuestionWrapper;
 import com.aryan.quiz.models.Quiz;
 import com.aryan.quiz.services.QuizService;
 
@@ -36,7 +37,7 @@ public class QuizController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<List<Question>> getQuizQuestionsById(@PathVariable Integer id){
+	public ResponseEntity<List<QuestionWrapper>> getQuizQuestionsById(@PathVariable Integer id){
 		return quizService.getQuizQuestionsById(id);
 	}
 }

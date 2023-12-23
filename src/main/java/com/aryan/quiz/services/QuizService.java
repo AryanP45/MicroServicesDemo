@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.aryan.quiz.dao.QuestionDao;
 import com.aryan.quiz.dao.QuizDao;
 import com.aryan.quiz.models.Question;
+import com.aryan.quiz.models.QuestionWrapper;
 import com.aryan.quiz.models.Quiz;
 
 @Service
@@ -48,14 +49,22 @@ public class QuizService {
 		return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
 	}
 
-	public ResponseEntity<List<Question>> getQuizQuestionsById(Integer id) {
+	public ResponseEntity<List<QuestionWrapper>> getQuizQuestionsById(Integer id) {
 		try {
-			if(quizDao.findById(id).isPresent())
-				return new ResponseEntity<>(quizDao.findById(id).get().getQuestions(),HttpStatus.OK); 
+			if (quizDao.findById(id).isPresent()) {
+				List<Question> questions = quizDao.findById(id).get().getQuestions();
+				List<QuestionWrapper> questionWrappers = new ArrayList<>();
+				for (Question q : questions) {
+					QuestionWrapper questionWrapper = new QuestionWrapper(q.getId(), q.getQuestionTitle(),
+							q.getOption1(), q.getOption2(), q.getOption3(), q.getOption4());
+					questionWrappers.add(questionWrapper);
+				}
+				return new ResponseEntity<>(questionWrappers, HttpStatus.OK);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ResponseEntity<>(new Quiz().getQuestions(),HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 	}
 
 }
