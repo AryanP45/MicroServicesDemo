@@ -26,4 +26,9 @@ public class QuestionService {
 	public Optional<Question> getQuestionById(Integer id) {
 		return questionDao.findById(id);
 	}
+
+	public String addQuestion(Question question) {
+		questionDao.save(question);
+		return "success";
+	}
 }
