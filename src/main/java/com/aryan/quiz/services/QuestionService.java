@@ -27,12 +27,24 @@ public class QuestionService {
 		return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NOT_FOUND);
 	}
 
-	public List<Question> getQuestionsByCategory(String name) {
-		return questionDao.findByCategory(name);
+	public ResponseEntity<List<Question>> getQuestionsByCategory(String name) {
+		try {
+			return new ResponseEntity<>(questionDao.findByCategory(name), HttpStatus.OK);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NOT_FOUND);
 	}
 
-	public Optional<Question> getQuestionById(Integer id) {
-		return questionDao.findById(id);
+	public ResponseEntity<Optional<Question>> getQuestionById(Integer id) {
+		try {
+			if (questionDao.findById(id).isPresent())
+				return new ResponseEntity<>(questionDao.findById(id), HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<>(questionDao.findById(id), HttpStatus.NOT_FOUND);
 	}
 
 	public String addQuestion(Question question) {

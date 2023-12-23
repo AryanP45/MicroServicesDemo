@@ -32,13 +32,13 @@ public class QuestionController {
 	}
 
 	@GetMapping("/category/{categoryName}")
-	public List<Question> getQuestionsByCategory(@PathVariable String categoryName) {
+	public ResponseEntity<List<Question>> getQuestionsByCategory(@PathVariable String categoryName) {
 		// categoryName is case sensitive
 		return questionService.getQuestionsByCategory(categoryName);
 	}
 
 	@GetMapping("/{id}")
-	public Optional<Question> getQuestionById(@PathVariable Integer id) throws JsonProcessingException {
+	public ResponseEntity<Optional<Question>> getQuestionById(@PathVariable Integer id) throws JsonProcessingException {
 		return questionService.getQuestionById(id);
 
 	}
