@@ -1,4 +1,4 @@
-package com.aryan.quiz.services;
+package com.aryan.questionservice.services;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.aryan.quiz.dao.QuestionDao;
-import com.aryan.quiz.models.Question;
+import com.aryan.questionservice.dao.QuestionDao;
+import com.aryan.questionservice.models.Question;
+import com.aryan.questionservice.models.QuestionWrapper;
+import com.aryan.questionservice.models.Response;
 
 @Service
 public class QuestionService {
@@ -79,5 +81,54 @@ public class QuestionService {
 			e.printStackTrace();
 		}
 		return new ResponseEntity<>(new Question(), HttpStatus.NOT_FOUND);
+	}
+
+	public ResponseEntity<List<Integer>> getQuestionsForQuiz(String category, Integer noOfQuestion) {
+		try {
+			List<Integer> questions = questionDao.findRandomQuestionsByCategory(category, noOfQuestion);
+			return new ResponseEntity<>(questions, HttpStatus.CREATED);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NOT_ACCEPTABLE);
+	}
+
+	public ResponseEntity<List<QuestionWrapper>> getQuestionsById(List<Integer> questionsIds) {
+
+		List<QuestionWrapper> wrappers = new ArrayList<>();
+		List<Question> questions = new ArrayList<>();
+
+		// Getting Specified Questions from database
+		for (Integer id : questionsIds) {
+			questions.add(questionDao.findById(id).get());
+		}
+
+		// converting question to questionwrapper
+		for (Question q : questions) {
+			QuestionWrapper questionWrapper = new QuestionWrapper(q.getId(), q.getQuestionTitle(), q.getOption1(),
+					q.getOption2(), q.getOption3(), q.getOption4());
+			wrappers.add(questionWrapper);
+		}
+
+		return new ResponseEntity<>(wrappers, HttpStatus.OK);
+
+	}
+
+	public ResponseEntity<Integer> getScore(List<Response> responses) {
+		try {
+			Integer score = 0;
+			for (int i = 0; i < responses.size(); i++) {
+				Question question = questionDao.findById(responses.get(i).getId()).get();
+				if (question.getRightAnswer().equals(responses.get(i).getResponse())) {
+					score++;
+				}
+			}
+			return new ResponseEntity<>(score, HttpStatus.OK);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return new ResponseEntity<>(-1, HttpStatus.NOT_ACCEPTABLE);
 	}
 }

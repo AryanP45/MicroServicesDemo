@@ -1,13 +1,13 @@
-package com.aryan.quiz;
+package com.aryan.questionservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class QuizApplication {
+public class QuestionServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(QuizApplication.class, args);
+		SpringApplication.run(QuestionServiceApplication.class, args);
 	}
 
 }

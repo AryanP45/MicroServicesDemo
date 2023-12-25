@@ -1,10 +1,10 @@
-package com.aryan.quiz;
+package com.aryan.questionservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class QuizApplicationTests {
+class QuestionServiceApplicationTests {
 
 	@Test
 	void contextLoads() {

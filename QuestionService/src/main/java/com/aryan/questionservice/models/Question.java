@@ -1,4 +1,4 @@
-package com.aryan.quiz.models;
+package com.aryan.questionservice.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

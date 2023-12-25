@@ -1,4 +1,4 @@
-package com.aryan.quiz.controllers;
+package com.aryan.questionservice.controllers;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.aryan.quiz.models.Question;
-import com.aryan.quiz.services.QuestionService;
+import com.aryan.questionservice.models.Question;
+import com.aryan.questionservice.models.QuestionWrapper;
+import com.aryan.questionservice.models.Response;
+import com.aryan.questionservice.services.QuestionService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @RestController
@@ -57,5 +60,24 @@ public class QuestionController {
 	public ResponseEntity<Question> updateQuestion(@RequestBody Question question, @PathVariable Integer id) {
 		question.setId(id);
 		return questionService.updateQuestion(question);
+	}
+
+	// Generate
+	@GetMapping("/generate")
+	public ResponseEntity<List<Integer>> getQuestionsForQuiz(@RequestParam String category,
+			@RequestParam Integer noOfQuestions) {
+		return questionService.getQuestionsForQuiz(category, noOfQuestions);
+	}
+
+	// getQuestion (from questionID)
+	@PostMapping("/getQuestions")
+	public ResponseEntity<List<QuestionWrapper>> getQuestionsWithoutAnswers(@RequestBody List<Integer> questionsIds) {
+		return questionService.getQuestionsById(questionsIds);
+	}
+
+	// getscore
+	@PostMapping("/getscore")
+	public ResponseEntity<Integer> getScore(@RequestBody List<Response> responses) {
+		return questionService.getScore(responses);
 	}
 }
