@@ -15,6 +15,7 @@ import com.aryan.quiz.dao.QuizDao;
 import com.aryan.quiz.models.Question;
 import com.aryan.quiz.models.QuestionWrapper;
 import com.aryan.quiz.models.Quiz;
+import com.aryan.quiz.models.Response;
 
 @Service
 public class QuizService {
@@ -65,6 +66,29 @@ public class QuizService {
 			e.printStackTrace();
 		}
 		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+	}
+
+	public ResponseEntity<Integer> calculateResult(Integer id, List<Response> responses) {
+
+		try {
+			if (quizDao.findById(id).isPresent()) {
+				Integer score = 0;
+				Quiz quiz = quizDao.findById(id).get();
+				List<Question> questions = quiz.getQuestions();
+				
+				for (int i = 0; i < responses.size(); i++) {
+					if (questions.get(i).getRightAnswer().equals(responses.get(i).getResponse())) {
+						score++;
+					}
+				}
+				return new ResponseEntity<>(score, HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+
+		return new ResponseEntity<>(-1, HttpStatus.NOT_ACCEPTABLE);
 	}
 
 }
