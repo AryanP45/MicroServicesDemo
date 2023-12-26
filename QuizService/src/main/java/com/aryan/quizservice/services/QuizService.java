@@ -48,4 +48,16 @@ public class QuizService {
 		}
 		return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
 	}
+
+	public ResponseEntity<List<QuestionWrapper>> getQuizQuestionsById(Integer id) {
+
+		try {
+			List<QuestionWrapper> questionWrappers = quizInterface
+					.getQuestionsWithoutAnswers(quizDao.findById(id).get().getQuestionIds()).getBody();
+			return new ResponseEntity<>(questionWrappers, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+	}
 }
