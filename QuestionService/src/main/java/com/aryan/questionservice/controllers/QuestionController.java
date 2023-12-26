@@ -40,7 +40,7 @@ public class QuestionController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<Question>> getQuestionById(@PathVariable Integer id) throws JsonProcessingException {
+	public ResponseEntity<Optional<Question>> getQuestionById(@PathVariable Integer id) {
 		return questionService.getQuestionById(id);
 
 	}
