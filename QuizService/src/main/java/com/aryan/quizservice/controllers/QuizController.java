@@ -29,4 +29,9 @@ public class QuizController {
 		return quizService.createQuiz(quizDto.getCategory(), quizDto.getNoOfQuestions(), quizDto.getTitle());
 
 	}
+
+	@GetMapping("/all")
+	public ResponseEntity<List<Quiz>> getAllQuiz() {
+		return quizService.getAllQuiz();
+	}
 }
