@@ -60,4 +60,17 @@ public class QuizService {
 		}
 		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 	}
+
+	public ResponseEntity<Integer> getScore(Integer id, List<Response> responses) {
+
+		try {
+			Integer score = quizInterface.getScore(responses).getBody();
+			return new ResponseEntity<>(score, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return new ResponseEntity<>(-1, HttpStatus.NOT_ACCEPTABLE);
+	}
+
 }

@@ -39,4 +39,9 @@ public class QuizController {
 	public ResponseEntity<List<QuestionWrapper>> getQuizQuestionsById(@PathVariable Integer id){
 		return quizService.getQuizQuestionsById(id);
 	}
+	
+	@PostMapping("/submit/{id}")
+	public ResponseEntity<Integer> submitQuiz(@PathVariable Integer id,@RequestBody List<Response> responses){
+		return quizService.getScore(id,responses);
+	}
 }
