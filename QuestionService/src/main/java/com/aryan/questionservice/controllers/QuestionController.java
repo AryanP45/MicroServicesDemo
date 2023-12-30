@@ -21,13 +21,18 @@ import com.aryan.questionservice.models.Response;
 import com.aryan.questionservice.services.QuestionService;
 
 import lombok.AllArgsConstructor;
+import lombok.Setter;
 
 @RestController
 @RequestMapping("/question")
-@AllArgsConstructor
 public class QuestionController {
 
 	private final QuestionService questionService;
+	
+	@Autowired
+	public QuestionController(QuestionService questionService) {
+		this.questionService = questionService;
+	}
 
 	@GetMapping("/allquestions")
 	public ResponseEntity<List<Question>> getAllQuestion() {
