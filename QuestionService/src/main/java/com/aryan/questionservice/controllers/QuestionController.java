@@ -19,14 +19,20 @@ import com.aryan.questionservice.models.Question;
 import com.aryan.questionservice.models.QuestionWrapper;
 import com.aryan.questionservice.models.Response;
 import com.aryan.questionservice.services.QuestionService;
-import com.fasterxml.jackson.core.JsonProcessingException;
+
+import lombok.AllArgsConstructor;
+import lombok.Setter;
 
 @RestController
 @RequestMapping("/question")
 public class QuestionController {
 
+	private final QuestionService questionService;
+	
 	@Autowired
-	QuestionService questionService;
+	public QuestionController(QuestionService questionService) {
+		this.questionService = questionService;
+	}
 
 	@GetMapping("/allquestions")
 	public ResponseEntity<List<Question>> getAllQuestion() {
