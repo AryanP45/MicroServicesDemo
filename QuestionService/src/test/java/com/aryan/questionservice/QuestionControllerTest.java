@@ -75,6 +75,59 @@ public class QuestionControllerTest {
 		mockMvc.perform(MockMvcRequestBuilders.get("/question/allquestions").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isNotFound()).andDo(print());
 	}
+	
+	// Testing  : @GetMapping("/{id}")
+
+	@Test
+	public void whenQuestionExists_200() throws Exception {
+		// Define the Question ID for the test
+		int questionId = 1;
+		Question question = new Question(questionId, "demo title", "op1", "op2", "op3", "op4", "right_answer",
+				"easy/hard", "prog_lang_category");
+
+		// Mocking the service behavior to return an Optional containing a specific
+		// Question instance
+		Mockito.doReturn(new ResponseEntity<>(Optional.of(question), HttpStatus.OK)).when(questionService)
+				.getQuestionById(questionId);
+
+		// Performing an HTTP GET request to retrieve an Question by ID
+		ResultActions response = mockMvc.perform(
+				MockMvcRequestBuilders.get("/question/{id}", questionId).contentType(MediaType.APPLICATION_JSON));
+
+		// Asserting the response expectations
+		response.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$.id").value(1))
+				.andExpect(jsonPath("$.category", is("prog_lang_category")));
+	}
+
+	@Test
+	public void whenQuestionExistsButIsNull_200() throws Exception {
+		// Define the Question ID for the test
+		int questionId = 1;
+		Question question = new Question();
+		// Mocking the service behavior to return an Optional containing a specific
+		// Question instance
+		Mockito.doReturn(new ResponseEntity<>(Optional.of(question), HttpStatus.OK)).when(questionService)
+				.getQuestionById(questionId);
+
+		// Performing an HTTP GET request to retrieve an Question by ID
+		mockMvc.perform(
+				MockMvcRequestBuilders.get("/question/{id}", questionId).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$.category").doesNotExist());
+	}
+
+	@Test
+	public void whenQuestionDoesNotExists_400() throws Exception {
+		// Define the Question ID for the test
+		int questionId = 1;
+		// Mocking the service behavior to return an Optional containing a specific
+		// Question instance
+		Mockito.doReturn(new ResponseEntity<>(Optional.empty(), HttpStatus.NOT_FOUND)).when(questionService)
+				.getQuestionById(questionId);
+
+		// Performing an HTTP GET request to retrieve an Question by ID
+		mockMvc.perform(
+				MockMvcRequestBuilders.get("/question/{id}", questionId).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isNotFound()).andDo(print());
 	}
 	
 	
